@@ -1,7 +1,7 @@
 package com.liyaos
 
 object Main {
-  val nLists = 80000
+  val nLists = 40320
   def main(args: Array[String]) {
     val r = new Reduce((x: Int, y: Int) => x + y, 0)
     val m = new Map((x: Int) => x * 2, r, nLists)

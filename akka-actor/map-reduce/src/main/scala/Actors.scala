@@ -10,7 +10,7 @@ class ReduceActor(f: (Int, Int) => Int, init: Int, reaper: ActorRef) extends Act
     case l: List[Int] =>
       res = l.foldLeft(res)(f)
     case Print =>
-      println(res)
+      println("4: " + res)
     case Stop =>
       reaper ! Stop
       context.stop(self)

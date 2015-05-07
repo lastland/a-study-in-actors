@@ -5,7 +5,7 @@ import org.openjdk.jmh.annotations._
 
 @State(Scope.Thread)
 class Test {
-  val nLists = 80000
+  val nLists = 40320
 
   @Benchmark
   def test() {

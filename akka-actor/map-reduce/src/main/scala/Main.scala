@@ -4,8 +4,8 @@ import akka.actor._
 
 object Main {
 
-  val nMapActors = 8
-  val nLists = 1000000
+  val nMapActors = 4
+  val nLists = 40320000 / nMapActors
 
   def main(args: Array[String]) {
     val system = ActorSystem("MapReduceSystem")
@@ -15,7 +15,8 @@ object Main {
       new ReduceActor((x: Int, y: Int) => x + y, 0, reaperActor)), name = "reduce")
     val mapActors = for (i <- 0 until nMapActors) yield
       system.actorOf(Props(
-        new MapActor((x: Int) => x * 2, reduceActor, reaperActor)), name = "map" + i)
+        new MapActor((x: Int) => x * 2, reduceActor,
+          reaperActor)).withDispatcher("main-dispatcher"), name = "map" + i)
     for (i <- 0 until nLists) {
       for (m <- mapActors) {
         m ! lists.generate

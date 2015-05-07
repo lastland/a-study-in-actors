@@ -10,7 +10,7 @@ class Reduce(f: (Int, Int) => Int, init: Int) {
   def reduce(l: List[Int]) = this.synchronized {
     res = l.foldLeft(res)(f)
     count += 1
-    count
+    res
   }
 }
 
@@ -18,11 +18,12 @@ class Map(f: Int => Int, r: Reduce, num: Int) {
   def map(l: List[Int]) = {
     val fu = future {
       l.map(f)
+      r.reduce(l)
     }
-    fu onSuccess {
-      case res =>
-        val re = r.reduce(l)
-    }
+//    fu onSuccess {
+//      case res =>
+//        val re = r.reduce(l)
+//    }
     fu
   }
 }
