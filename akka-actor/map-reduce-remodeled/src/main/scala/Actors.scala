@@ -49,7 +49,7 @@ class ReduceActor(reduce: (Int, Int) => Int) extends Actor {
 class ReaperActor extends Actor {
   def receive() = {
     case Result(n) =>
-      println("The result is " + n)
+//      println("The result is " + n)
       context.system.shutdown()
   }
 }
