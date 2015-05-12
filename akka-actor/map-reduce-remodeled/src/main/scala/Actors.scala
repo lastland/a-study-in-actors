@@ -7,14 +7,14 @@ case class Reduce(l: List[Int])
 case class Result(n: Int)
 
 class MasterActor(map: Int => Int, reduce: (Int, Int) => Int,
-  nWorkers: Int, nJobs: Int, reaper: ActorRef) extends Actor {
+  nMap: Int, nReduce: Int, nJobs: Int, reaper: ActorRef) extends Actor {
 
   var result = 0
   var count = 0
 
-  val mapRouter = context.actorOf(RoundRobinPool(nWorkers).props(
+  val mapRouter = context.actorOf(RoundRobinPool(nMap).props(
     Props(new MapActor(map))), "mapRouter")
-  val reduceRouter = context.actorOf(RoundRobinPool(nWorkers).props(
+  val reduceRouter = context.actorOf(RoundRobinPool(nReduce).props(
     Props(new ReduceActor(reduce))), "reduceRouter")
 
   def receive() = {
@@ -33,6 +33,7 @@ class MasterActor(map: Int => Int, reduce: (Int, Int) => Int,
 }
 
 class MapActor(map: Int => Int) extends Actor {
+
   def receive() = {
     case Map(l) =>
       sender ! Reduce(l.map(map))
@@ -40,6 +41,7 @@ class MapActor(map: Int => Int) extends Actor {
 }
 
 class ReduceActor(reduce: (Int, Int) => Int) extends Actor {
+
   def receive() = {
     case Reduce(l) =>
       sender ! Result(l.foldLeft(0)(reduce))
