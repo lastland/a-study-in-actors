@@ -51,10 +51,10 @@ if __name__ == "__main__":
                     if k not in name_col:
                         name_col[k] = col_n
                         col_n += 2
-                        sheet.write(counter, name_col[k],
-                                    times[k] / n_repeated_times)
-                        sheet.write(counter, name_col[k] + 1,
-                                    float(frequency[k]) / n_repeated_times)
+                    sheet.write(counter, name_col[k],
+                                times[k] / n_repeated_times)
+                    sheet.write(counter, name_col[k] + 1,
+                                float(frequency[k]) / n_repeated_times)
                 counter += 1
     m = wb.add_sheet("column names")
     for k in name_col:
