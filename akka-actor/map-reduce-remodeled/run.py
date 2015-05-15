@@ -56,6 +56,7 @@ if __name__ == "__main__":
                     sheet.write(counter, name_col[k] + 1,
                                 float(frequency[k]) / n_repeated_times)
                 counter += 1
+		wb.save("test_result.xls")
     m = wb.add_sheet("column names")
     for k in name_col:
         m.write(0, name_col[k], k)
